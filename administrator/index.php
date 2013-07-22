@@ -4,17 +4,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title></title>
     </head>
-    <body>   
+    <body> 
         <?php 
-          session_start();
-        if ($_SESSION['flag_insert'])
-            echo 'Данные с формы успешно загруженны в базу!';
+        session_start();
+        
+        if ($_SESSION['login'] == 'admin')
+            echo 'Вы ввели неверную комбинацию логин/пароль!';
          session_destroy();
         ?>
-        <form action="insert_data.php" method="post">
-            <input type="text" name="title"/><br>
-            <textarea name="text" cols="50" rows="10"/></textarea><br>
-            <input type="submit" value="Отправить">
-        </form>            
+        <form action="login.php" method="post">
+            Логин<br>
+            <input type="text" name="username"/><br>
+            Пароль<br>
+            <input type="password" name="pass"/><br>
+            
+            <input type="submit" value="Войти" name="login_button">
+        </form>     
     </body>
 </html>
