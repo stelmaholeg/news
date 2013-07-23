@@ -8,7 +8,9 @@
         <?php 
         session_start();
         
-        if ($_SESSION['login'] == 'admin')
+        if (!$_SESSION['login'] == 'admin')
+            header('Location: ./add-news.php');    
+        else    
             echo 'Вы ввели неверную комбинацию логин/пароль!';
          session_destroy();
         ?>

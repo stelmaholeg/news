@@ -26,13 +26,13 @@ catch(PDOException $e)
 }
     if ($rows == 1){    
         session_start();
-        $_SESSION['login'] = 'guest';    
+        $_SESSION['login'] = 'admin';    
         header('Location: add-news.php');    
     }
     else
     {
          session_start();
-         $_SESSION['login'] = 'admin';
+         $_SESSION['login'] = 'guest';
          header('Location: index.php');    
     }
 }
