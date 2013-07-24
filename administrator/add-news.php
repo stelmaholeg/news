@@ -21,6 +21,13 @@
             Текст статьи<br>
             <textarea name="text" cols="50" rows="10"/></textarea><br>
             <input type="submit" value="Отправить" name="news_button">
-        </form>      
+        </form> 
+        
+        
+        <?php
+            include('../twitter/index.php');
+            $abc = twitter();
+             print_r($abc);
+        ?>
      </body>
 </html>
