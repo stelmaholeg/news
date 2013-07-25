@@ -1,9 +1,5 @@
 <?php
-   /* require_once "mysql_connect.php";
-    $title = $_POST['title'];
-    $text = $_POST['text'];
-     
-    mysql_query("INSERT INTO news SET title=".$title." text=".$text);    */
+
 
 if ($_POST['login_button'])
 {

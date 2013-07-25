@@ -1,6 +1,6 @@
 <?php
 
-function twitter(){
+function twitter($count = 1){
     ini_set('display_errors', 1);
     require_once('TwitterAPIExchange.php');
 
@@ -13,22 +13,25 @@ function twitter(){
 
     $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
     $screen_name = 'MajestyTeam';
-    $count = 1;
+    //$count = 1;
     $getfield = "?screen_name=$screen_name&count=$count";
     $requestMethod = 'GET';
     $twitter = new TwitterAPIExchange($settings); 
 
-    $obj = $twitter->setGetfield($getfield)->buildOauth($url, $requestMethod)->performRequest();
-    $obj = json_decode($obj);
-    echo "<pre>";
+    $twits = $twitter->setGetfield($getfield)->buildOauth($url, $requestMethod)->performRequest();
+    $twits = json_decode($twits);
+   
    //    print_r($obj);
-    echo "</pre>";
-    
-    
-    
-      $rusult['created_at'] = $obj[0]->{'created_at'};
-      $rusult['text'] =  $obj[0]->{'text'};
 
-    return $result;
+    
+    
+    for($i = 0; $i < $count; $i++)
+    {
+      $result[$i]['date'] = date("Y-m-d H:i:s", strtotime($twits[$i]->{'created_at'}));
+      $result[$i]['text'] =  $twits[$i]->{'text'};
+      $result[$i]['author'] =  $screen_name;
+      $result[$i]['title'] = "";
+    }
+   return $result;
 }
 ?>

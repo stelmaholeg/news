@@ -1,4 +1,6 @@
 <?php
+require_once "./head.php";
+
 require_once "./mysql_connect.php";
 try
 {
@@ -10,8 +12,11 @@ $STH = $db->query('SELECT * FROM `news`');
 $STH->setFetchMode(PDO::FETCH_ASSOC);  
   
 while($row = $STH->fetch()) {
-    echo "<h4>".$row['title'] . "</h4><br>";  
-    echo $row['text'] . "<hr>";  
+    echo "<h4>".$row['title']."</h4><br>";  
+    echo $row['text']. "<br>";
+    echo $row['author']. "<br>";  
+    echo $row['date']. "<hr>";  
+    
 }
 }
 catch(PDOException $e)
