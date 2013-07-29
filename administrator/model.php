@@ -14,17 +14,20 @@ function checkLogin(){
     }
     if ($rows == 1){    
         session_start();
-        $_SESSION['login'] = 'admin';    
-        header('Location: add-news.php');    
+        $_SESSION['login'] = 'admin'; 
+        return true;
+       // header('Location: controller.php?task=addnews');    
     }
     else{
          session_start();
          $_SESSION['login'] = 'guest';
-         header('Location: index.php');    
+         //header('Location: index.php');    
     }
+    return false;
 }
 
 function getNews(){
+    require_once "../mysql_connect.php";
     try
     {
         # поскольку это обычный запрос без placeholder’ов,
@@ -37,7 +40,9 @@ function getNews(){
     {
         die("Error: ".$e->getMessage());
     }
-    return $STH;
+    
+    $abc = $STH->fetchAll();
+    return $STH; 
 }
 
 function insertDB($article)    

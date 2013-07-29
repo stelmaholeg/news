@@ -1,5 +1,14 @@
 <?php
-        function newsForm($form_action = "controller.php", $values = null)
+class view{
+        static function menu(){
+            ?>
+                <div style="fixed">
+                    <a href="./controller.php?task=addnews">Добавить новость</a> |
+                    <a href="./controller.php?task=editnews">Редактировать новости</a>
+                </div>
+            <?
+        }
+        static function newsForm($form_action = "controller.php", $values = null)
         {
             ?>
                 <div>
@@ -19,7 +28,7 @@
             <?            
          }
          
-         function loginForm()
+         static function loginForm()
          {
             ?>
             <form action="controller.php" method="post">
@@ -32,7 +41,7 @@
             <?            
          }
          
-         function twitForm()
+         static function twitForm()
          {
          ?>
          <form action="controller.php" method="post">  
@@ -43,4 +52,5 @@
         </form> 
         <?            
         }
+}
 ?>

@@ -2,10 +2,11 @@
 include "../head.php";
 include 'model.php';
 include "view.php";
- 
+view::menu();
+
 function message(){
     session_start();        
-    if (!$_SESSION['login'] == 'admin')        
+    if ($_SESSION['login'] == 'guest')        
         die ('Вы ввели неверную комбинацию логин/пароль!');
     
     if ($_SESSION['flag_insert'])
@@ -16,9 +17,9 @@ function message(){
 }
 
 function addNews(){  
-     newsForm();
+     view::newsForm();
      echo "<br> <br>";
-     twitForm();
+     view::twitForm();
 }
 
 function editNews(){
@@ -38,9 +39,15 @@ function editNews(){
 function login(){
      loginForm();
 }
+
+$loginTrue = false;
+if (isset($_POST['login_button'])){
+    $loginTrue = checkLogin();
+}
+
 message();
 
-if ($_GET['task'] == 'addnews'){
+if ($_GET['task'] == 'addnews' || $loginTrue){
     addNews();
 }
 
@@ -52,16 +59,14 @@ elseif($_GET['task'] == 'login')
 {
     login();
 }
-if (isset($_POST['login_button'])){
-    checkLogin();
-}
+
 
 elseif (isset($_POST['news_button'])){
     if (insertDB($_POST))//функция вернет TRUE если данные успешно добавленны
     {
         session_start();
         $_SESSION['flag_insert'] = TRUE;
-        header('Location: ./controller?task=addnews');
+        header('Location: ./controller.php?task=addnews');
     }
 }
 
@@ -85,13 +90,13 @@ elseif (isset($_POST['twit_button'])){
                 $_SESSION['flag_old_twit'] = TRUE;
         }
     }
-    header('Location: ./controller?task=addnews');
+    header('Location: ./controller.php?task=addnews');
 }
 
 elseif(isset($_POST['edit_button']))
 {
    updateDB($_POST);
-   header('Location: ./controller?task=editnews');
+   header('Location: ./controller.php?task=editnews');
 }
  else {
      die('ошибка доступа');

@@ -8,15 +8,16 @@
         <?php 
         session_start();
         
-        if (!$_SESSION['login'] == 'admin')
-            header('Location: ./add-news.php');    
-        else    
+        if ($_SESSION['login'] == 'admin')
+            header('Location: ./controller.php?task=addnews');    
+        elseif(isset($_SESSION['login']))   
             echo 'Вы ввели неверную комбинацию логин/пароль!';
          session_destroy();
          
          
          include "view.php";
-         loginForm();
+         view::menu();
+         view::loginForm();
         ?>
         
     </body>
