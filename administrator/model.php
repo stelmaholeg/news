@@ -42,7 +42,7 @@ function getNews(){
     }
     
     $abc = $STH->fetchAll();
-    return $STH; 
+    return  $abc; 
 }
 
 function insertDB($article)    
@@ -119,10 +119,33 @@ function isNew($text)
     }
 }
 
+function delNews(){
+    include "../mysql_connect.php";
+    if (isset($_POST['del_button'])){
+        try {
+            $select_query = "DELETE FROM news WHERE news_id='".$_POST['news_id']."'";        
+            $rows = $db->query($select_query);        
+            $error_array = $db->errorInfo(); 
+            
+            if($db->errorCode() != 0000){                 
+                return false;
+            }
+            return true;
+        }
+        catch(PDOException $e){
+            return false;           
+        }
+    }
+    else 
+        return false;
+}
 
-
-
-        
+if ($_GET['task'] == 'del'){
+    if (delNews())
+        header('Location: ./controller.php?task=editnews');
+    else
+        header('Location: ./controller.php?task=editnews&delerror');
+}
 
 
 

@@ -13,6 +13,10 @@ function message(){
             echo 'Данные успешно загружены в базу!';
     elseif($_SESSION['flag_old_twit'])        
             echo 'Твит(ы) с таким текстом уже есть в базе данных!';       
+    if (isset($_GET['delerror']))
+        echo "не удалось удалить запись из базы данных";
+    else
+        echo "запись была успешно удалена";
     session_destroy();
 }
 
@@ -22,15 +26,21 @@ function addNews(){
      view::twitForm();
 }
 
-function editNews(){
-    while($row = getNews()) {    
+function editNews(){    
+    $rows = getNews();
+    foreach ($rows as $row){    
         echo "<h4>".$row['title']."</h4><br>";  
         echo $row['text']. "<br>";
         echo $row['author']. "<br>"; 
         echo $row['date']. "<br>";
     ?>
-        <a href="#" onclick="$('#edit-form<?=$row['news_id']?>').toggle();">Редактировать</a>      
-        <div id='edit-form<?=$row['news_id']?>' style="display: none"><?php newsForm("controller.php",$row);?></div>
+       
+        <form action="./model.php?task=del" method="post">
+            <input type="hidden" name='news_id' value="<?=$row['news_id']?>">
+            <input type="submit" name='del_button' value="Удалить">
+        </form>    
+        <a href="#" onclick="$('#edit-form<?=$row['news_id']?>').toggle();">Редактировать</a>   
+        <div id='edit-form<?=$row['news_id']?>' style="display: none"><?php view::newsForm("controller.php?task=editnews",$row);?></div>
         <hr>
     <?
     }
