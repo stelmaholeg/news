@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+
 require_once "./head.php";
 
 require_once "./mysql_connect.php";

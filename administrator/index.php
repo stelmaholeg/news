@@ -6,18 +6,7 @@
     </head>
     <body> 
         <?php 
-        session_start();
-        
-        if ($_SESSION['login'] == 'admin')
-            header('Location: ./controller.php?task=addnews');    
-        elseif(isset($_SESSION['login']))   
-            echo 'Вы ввели неверную комбинацию логин/пароль!';
-         session_destroy();
-         
-         
-         include "view.php";
-         view::menu();
-         view::loginForm();
+          header('Location: ./controller.php'); 
         ?>
         
     </body>
