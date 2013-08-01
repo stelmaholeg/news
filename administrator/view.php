@@ -14,7 +14,7 @@ class view{
             <?
         }
         
-        static function newsForm($form_action = "controller.php?task=addnews", $values = null)
+        static function newsForm($form_action = "/news/administrator/controller.php?task=addnews", $values = null)
         {
             ?>
                 <div>
@@ -85,7 +85,7 @@ class view{
         static function editNews($row)
         {
             echo "<h4>".$row['title']."</h4><br>";  
-            echo $row['text']. "<br>";
+            echo substr($row['text'],0,140). "<br>";
             echo $row['author']. "<br>"; 
             echo $row['date']. "<br>";
             if ($row['from'] == 'twit')
@@ -98,19 +98,20 @@ class view{
                 if ($_SESSION['login'] == 'admin')
                 {
                 ?>            
-                <form action="./controller.php?task=del" method="post">
+                <form action="/news/administrator/controller.php?task=del" method="post">
                     <input type="hidden" name='news_id' value="<?=$row['news_id']?>">
                     <input type="submit" name='del_button' value="Удалить">
                 </form>    
                 <a href="#" onclick="$('#edit-form<?=$row['news_id']?>').toggle();">Редактировать</a>   
-                <div id='edit-form<?=$row['news_id']?>' style="display: none"><?php view::newsForm("controller.php?task=editnews",$row);?></div>
+                <div id='edit-form<?=$row['news_id']?>' style="display: none"><?php view::newsForm("/news/administrator/controller.php?task=editnews",$row);?></div>
                 <hr>
                 <?
                 }
             }
         }
         
-        static function viewArticle($row){
+        static function viewArticle($row = null, $prev_id = null, $next_id = null){
+                if ($row != null)
             ?>
                 <a href="/news">На главную</a>
                 <?
@@ -118,12 +119,22 @@ class view{
                 echo $row['text']. "<br>";
                 echo $row['author']. "<br>"; 
                 echo $row['date']. "<br>";
+        if ($prev_id != null){
+                ?>
+                    <a href="/news/controller.php?article=<?=$prev_id?>">Предыщая</a>
+        <? }if ($next_id != null) {?>
+                <a href="/news/controller.php?article=<?=$next_id?>">Следующая</a>
+        <?}
             
         }
         
         static function viewRegistration(){
             ?>
-                
+                <form action="./controller.php?task=reg" method='post'>
+                    <input type="text" name="username">
+                    <input type="password">
+                    <input type='sybmit' value='Зарегистрироваться'>                    
+                </form>
             <?
         }
 }

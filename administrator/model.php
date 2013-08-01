@@ -1,9 +1,13 @@
 <?php
+
+ 
+
 class model{   
+    
     
     function checkLogin()
     {
-        require_once "../mysql_connect.php";
+        require_once "/news/mysql_connect.php";
         try  {
                 $select_query = "SELECT * FROM users WHERE username='".$_POST['username']."' AND pass='".$_POST['pass']."'";
                 $rows = $db->query($select_query);
@@ -30,7 +34,7 @@ class model{
 
     function getNews()
     {
-        require_once "../mysql_connect.php";
+        include "./mysql_connect.php";       
         try
         {
             # поскольку это обычный запрос без placeholder’ов,
@@ -52,7 +56,7 @@ class model{
     {
         if ($article['date'] == "")
             $article['date'] = date("Y-m-d H:i:s");
-        include "../mysql_connect.php";
+        include "/news/mysql_connect.php";
         try{
 
            $insert_query = "INSERT INTO news 
@@ -77,7 +81,7 @@ class model{
     {
         if ($article['date'] == "")
             $article['date'] = date("Y-m-d H:i:s");
-        include "../mysql_connect.php";
+        include "/news/mysql_connect.php";
         try{
 
            $update_query = "UPDATE news SET title='$article[title]', text='$article[text]', author='$article[author]', date='$article[date]' WHERE news_id='$article[news_id]'";
@@ -98,7 +102,7 @@ class model{
 
     function isNew($text)
     {
-        include "../mysql_connect.php";
+        include "/news/mysql_connect.php";
         try {
             $select_query = "SELECT * FROM news WHERE text='".$text."'";        
             $rows = $db->query($select_query);        
@@ -120,7 +124,7 @@ class model{
 
     function delNews()
     {
-        include "../mysql_connect.php";
+        include "/news/mysql_connect.php";
         if (isset($_POST['del_button'])){
             try {
                 $select_query = "DELETE  FROM news WHERE news_id='".$_POST['news_id']."'";        
@@ -142,7 +146,7 @@ class model{
     
     function getArticle($news_id = 0)
     {
-        require_once "./mysql_connect.php";
+        require_once "/news/mysql_connect.php";
         try
         {
             # поскольку это обычный запрос без placeholder’ов,
@@ -157,6 +161,28 @@ class model{
         }
         
         return  $STH->fetch(); 
+    }
+        
+    function addUser($username, $pass)
+    {
+        if ($article['date'] == "")
+            $article['date'] = date("Y-m-d H:i:s");
+        include "/news/mysql_connect.php";
+        try
+        {
+           $insert_query = "INSERT INTO users 
+                  (username, pass)  VALUES 
+                  ('$username', '$pass')";
+           $rows = $db->exec($insert_query);
+           $error_array = $db->errorInfo(); 
+           if($db->errorCode() != 0000) 
+               return FALSE; 
+        }
+        catch(PDOException $e)
+        {
+            return FALSE;
+        }
+        return TRUE;
     }
 }
 
