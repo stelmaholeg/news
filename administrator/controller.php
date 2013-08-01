@@ -100,13 +100,30 @@ function del()
     header('Location: ./controller.php?task=editnews');
 }
 
+function registration()
+{    
+    view::registrationForm();
+}
+
+function addUser()
+{
+    if (isset($_POST['reg_button']))
+    {
+        $username = $_POST['username'];
+        $pass = $_POST['pass'];
+        $added = model::addUser($username, $pass);        
+    }
+    unset($_POST);
+    header('Localhost: ./controller.php?task=reg');
+}
+
 session_start();   
 if ($_SESSION['login'] == 'admin')
 {
     view::menu();      
     view::message();
     
-    switch ($_GET['task']){
+    switch ($_GET['task']){        
         case 'logout':  
             logout(); break;
         case 'editnews': 
@@ -121,10 +138,19 @@ if ($_SESSION['login'] == 'admin')
             die ('Ошибка вызова метода');
     }
 }
-else 
+elseif($_GET['task'] =='reg') 
+{
+    registration();
+}
+elseif($_GET['task'] =='addNews')
+{
+    addNews();
+}
+else
 {
      login();
 }
 
 include "../foot.php";
 ?>
+

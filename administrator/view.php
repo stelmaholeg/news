@@ -37,6 +37,7 @@ class view{
         static function loginForm()
         {
             ?>
+            Вход в систему
             <form action="controller.php?task=login" method="post">
                 Логин<br>
                 <input type="text" name="username"/><br>
@@ -44,6 +45,8 @@ class view{
                 <input type="password" name="pass"/><br>           
                 <input type="submit" value="Войти" name="login_button">
             </form>  
+
+            <a href="controller.php?task=reg">Регистрация</a>
             <?            
          }
          
@@ -128,12 +131,15 @@ class view{
             
         }
         
-        static function viewRegistration(){
+        static function registrationForm(){
             ?>
-                <form action="./controller.php?task=reg" method='post'>
-                    <input type="text" name="username">
-                    <input type="password">
-                    <input type='sybmit' value='Зарегистрироваться'>                    
+                Регистрация нового пользователя
+                <form action="./controller.php?task=addUser" method='post'>
+                    Имя пользователя:<br>
+                    <input type="text" name="username"><br>
+                    Пароль:<br>
+                    <input type="password" name="pass"><br>
+                    <input type='submit' value='Зарегистрироваться' name="reg_button">                    
                 </form>
             <?
         }

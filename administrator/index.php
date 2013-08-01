@@ -6,7 +6,7 @@
     </head>
     <body> 
         <?php 
-          header('Location: ./controller.php'); 
+          header('Location: ./controller.php?task=addnews'); 
         ?>
         
     </body>

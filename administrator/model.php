@@ -1,13 +1,9 @@
 <?php
 
- 
-
 class model{   
-    
-    
     function checkLogin()
     {
-        require_once "/news/mysql_connect.php";
+        require_once "./mysql_connect.php";
         try  {
                 $select_query = "SELECT * FROM users WHERE username='".$_POST['username']."' AND pass='".$_POST['pass']."'";
                 $rows = $db->query($select_query);
@@ -56,7 +52,7 @@ class model{
     {
         if ($article['date'] == "")
             $article['date'] = date("Y-m-d H:i:s");
-        include "/news/mysql_connect.php";
+        include "./mysql_connect.php";
         try{
 
            $insert_query = "INSERT INTO news 
@@ -81,7 +77,7 @@ class model{
     {
         if ($article['date'] == "")
             $article['date'] = date("Y-m-d H:i:s");
-        include "/news/mysql_connect.php";
+        include "./mysql_connect.php";
         try{
 
            $update_query = "UPDATE news SET title='$article[title]', text='$article[text]', author='$article[author]', date='$article[date]' WHERE news_id='$article[news_id]'";
@@ -102,7 +98,7 @@ class model{
 
     function isNew($text)
     {
-        include "/news/mysql_connect.php";
+        include "./mysql_connect.php";
         try {
             $select_query = "SELECT * FROM news WHERE text='".$text."'";        
             $rows = $db->query($select_query);        
@@ -124,7 +120,7 @@ class model{
 
     function delNews()
     {
-        include "/news/mysql_connect.php";
+        include "./mysql_connect.php";
         if (isset($_POST['del_button'])){
             try {
                 $select_query = "DELETE  FROM news WHERE news_id='".$_POST['news_id']."'";        
@@ -146,7 +142,7 @@ class model{
     
     function getArticle($news_id = 0)
     {
-        require_once "/news/mysql_connect.php";
+        require_once "./mysql_connect.php";
         try
         {
             # поскольку это обычный запрос без placeholder’ов,
@@ -167,7 +163,7 @@ class model{
     {
         if ($article['date'] == "")
             $article['date'] = date("Y-m-d H:i:s");
-        include "/news/mysql_connect.php";
+        include "./mysql_connect.php";
         try
         {
            $insert_query = "INSERT INTO users 
@@ -185,6 +181,4 @@ class model{
         return TRUE;
     }
 }
-
-
 ?>
