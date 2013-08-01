@@ -92,12 +92,12 @@ function del()
     if ($del_ok){
         session_start();
         $_SESSION['del'] = "ok";        
-        header('Location: ./controller.php?task=editnews');
+        
     }else{
         session_start();
-        $_SESSION['del'] = "error";       
-        header('Location: ./controller.php?task=editnews');
-    }    
+        $_SESSION['del'] = "error";               
+    }  
+    header('Location: ./controller.php?task=editnews');
 }
 
 session_start();   

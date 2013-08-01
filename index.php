@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 
 require_once "./head.php";
 
@@ -8,7 +8,7 @@ try
 {
     # поскольку это обычный запрос без placeholder’ов,
     # можно сразу использовать метод query()  
-    $STH = $db->query('SELECT * FROM `news`');
+    $STH = $db->query('SELECT * FROM `news` ORDER BY date DESC  limit 5');
     # устанавливаем режим выборки
     $STH->setFetchMode(PDO::FETCH_ASSOC);  
 }
@@ -17,10 +17,8 @@ catch(PDOException $e)
     die("Error: ".$e->getMessage());
 }
 
+include ('./administrator/view.php');
 while($row = $STH->fetch()) {
-    echo "<h4>".$row['title']."</h4><br>";  
-    echo $row['text']. "<br>";
-    echo $row['author']. "<br>";  
-    echo $row['date']. "<hr>";  
+    view::editNews($row);
 }
 ?>

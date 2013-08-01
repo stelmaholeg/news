@@ -1,6 +1,8 @@
 <?php
-class model{
-    function checkLogin(){
+class model{   
+    
+    function checkLogin()
+    {
         require_once "../mysql_connect.php";
         try  {
                 $select_query = "SELECT * FROM users WHERE username='".$_POST['username']."' AND pass='".$_POST['pass']."'";
@@ -26,7 +28,8 @@ class model{
         return false;
     }
 
-    function getNews(){
+    function getNews()
+    {
         require_once "../mysql_connect.php";
         try
         {
@@ -115,7 +118,8 @@ class model{
         }
     }
 
-    function delNews(){
+    function delNews()
+    {
         include "../mysql_connect.php";
         if (isset($_POST['del_button'])){
             try {
@@ -134,6 +138,25 @@ class model{
         }
         else 
             return false;
+    }
+    
+    function getArticle($news_id = 0)
+    {
+        require_once "./mysql_connect.php";
+        try
+        {
+            # поскольку это обычный запрос без placeholder’ов,
+            # можно сразу использовать метод query()  
+            $STH = $db->query("SELECT * FROM `news` WHERE news_id=$news_id");
+            # устанавливаем режим выборки
+            $STH->setFetchMode(PDO::FETCH_ASSOC);  
+        }
+        catch(PDOException $e)
+        {
+            die("Error: ".$e->getMessage());
+        }
+        
+        return  $STH->fetch(); 
     }
 }
 

@@ -1,6 +1,8 @@
 <?php
 class view{
-        static function menu(){
+    
+        static function menu()
+        {
             ?>
                 <div style="fixed">
                     <a href="./controller.php?task=addnews">Добавить новость</a> |
@@ -11,6 +13,7 @@ class view{
 
             <?
         }
+        
         static function newsForm($form_action = "controller.php?task=addnews", $values = null)
         {
             ?>
@@ -31,8 +34,8 @@ class view{
             <?            
          }
          
-         static function loginForm()
-         {
+        static function loginForm()
+        {
             ?>
             <form action="controller.php?task=login" method="post">
                 Логин<br>
@@ -44,8 +47,8 @@ class view{
             <?            
          }
          
-         static function twitForm()
-         {
+        static function twitForm()
+        {
          ?>
          <form action="controller.php?task=twit" method="post">  
             <legend>Считать твитты</legend>
@@ -56,7 +59,8 @@ class view{
         <?            
         }        
         
-        static function message(){
+        static function message()
+        {
             session_start();        
             if ($_SESSION['login'] == 'guest')        
                 die ('Вы ввели неверную комбинацию логин/пароль!');
@@ -78,19 +82,48 @@ class view{
             unset($_SESSION['flag_del']);
         }
         
-        static function editNews($row){
+        static function editNews($row)
+        {
             echo "<h4>".$row['title']."</h4><br>";  
             echo $row['text']. "<br>";
             echo $row['author']. "<br>"; 
             echo $row['date']. "<br>";
+            if ($row['from'] == 'twit')
+                echo "<a href='https://twitter.com/$row[author]' target='_blank'>Подробнее..</a>";
+            else
+                echo "<a href='/news/controller.php?article=$row[news_id]' >Подробнее..</a>";
+            
+            session_start();
+            if (isset($_SESSION['login'])){
+                if ($_SESSION['login'] == 'admin')
+                {
+                ?>            
+                <form action="./controller.php?task=del" method="post">
+                    <input type="hidden" name='news_id' value="<?=$row['news_id']?>">
+                    <input type="submit" name='del_button' value="Удалить">
+                </form>    
+                <a href="#" onclick="$('#edit-form<?=$row['news_id']?>').toggle();">Редактировать</a>   
+                <div id='edit-form<?=$row['news_id']?>' style="display: none"><?php view::newsForm("controller.php?task=editnews",$row);?></div>
+                <hr>
+                <?
+                }
+            }
+        }
+        
+        static function viewArticle($row){
             ?>
-            <form action="./model.php?task=del" method="post">
-                <input type="hidden" name='news_id' value="<?=$row['news_id']?>">
-                <input type="submit" name='del_button' value="Удалить">
-            </form>    
-            <a href="#" onclick="$('#edit-form<?=$row['news_id']?>').toggle();">Редактировать</a>   
-            <div id='edit-form<?=$row['news_id']?>' style="display: none"><?php view::newsForm("controller.php?task=editnews",$row);?></div>
-            <hr>
+                <a href="/news">На главную</a>
+                <?
+                echo "<h4>".$row['title']."</h4><br>";  
+                echo $row['text']. "<br>";
+                echo $row['author']. "<br>"; 
+                echo $row['date']. "<br>";
+            
+        }
+        
+        static function viewRegistration(){
+            ?>
+                
             <?
         }
 }
